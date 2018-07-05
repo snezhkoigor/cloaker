@@ -101,6 +101,6 @@ $app->router->group([
 });
 
 $app->configure('database');
-//$app->configure('geoip');
+$app->configure('black_ips');
 
 return $app;

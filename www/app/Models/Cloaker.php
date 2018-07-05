@@ -60,7 +60,7 @@ class Cloaker
 			$record = app()->geoip->getLocation($this->ip);
 			if ($record)
 			{
-				$this->country = $record->country->isoCode;
+				$this->country = mb_strtolower($record->country->isoCode);
 			}
 		}
 	}
@@ -77,7 +77,7 @@ class Cloaker
 			{
 				if (empty($this->platform) && preg_match('/' . $p . '/i', $_SERVER['HTTP_USER_AGENT']))
 				{
-					$this->platform = $s;
+					$this->platform = mb_strtolower($s);
 				}
 			}
 		}
@@ -116,21 +116,39 @@ class Cloaker
 	        }
         }
 	}
-	
-	
+
+
 	public function isPlatformRobot(): bool
 	{
 		return $this->platform === 'Robot';
 	}
 
 
-	public function isShowBlackLanding(): bool
+	public function isShowBlackLanding(array $platforms = [], array $countries = []): bool
 	{
+		$platforms = array_map('mb_strtolower', $platforms);
+		$countries = array_map('mb_strtolower', $countries);
+
 		if ($this->referer || empty($this->platform) || empty($this->ip) || empty($this->country) || $this->isPlatformRobot())
 		{
 			return false;
 		}
-		
+
+		if (\in_array($this->ip, config('black_ips')))
+		{
+			return false;
+		}
+
+		if (\count($platforms) && !in_array($this->platform, $platforms))
+		{
+			return false;
+		}
+
+		if (\count($countries) && !in_array($this->country, $countries))
+		{
+			return false;
+		}
+
 		return true;
 	}
 }
