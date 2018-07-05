@@ -54,6 +54,7 @@ RUN apt-get clean && \
 
 RUN usermod -u 1000 www-data
 ONBUILD RUN chmod -R 777 /var/www/html/storage
+ONBUILD RUN chown -R www-data:www-data /var/www/html/storage
 
 # - config files
 COPY php.ini /usr/local/etc/php/redis.conf
