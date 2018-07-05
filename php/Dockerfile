@@ -53,7 +53,7 @@ RUN apt-get clean && \
     rm /var/log/lastlog /var/log/faillog
 
 RUN usermod -u 1000 www-data
-RUN chmod -R 777 /var/www/html/storage
+ONBUILD RUN chmod -R 777 /var/www/html/storage
 
 # - config files
 COPY php.ini /usr/local/etc/php/redis.conf
