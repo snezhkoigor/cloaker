@@ -16,10 +16,11 @@ class LandingController extends Controller
     {
     	if ($campaign_id)
         {
-			$campaign = DB::table('campaigns')
+        	$cloaker = new Cloaker();
+
+        	$campaign = DB::table('campaigns')
 				->select([
-					'campaigns.white_landing',
-					'campaigns.black_landing',
+					DB::raw(($cloaker->isShowBlackLanding() ? 'campaigns.black_landing' : 'campaigns.white_landing' . ' as landing_html')),
 					DB::raw('offers.link as offer_link'),
 					DB::raw('offers.id as offer_id')
 				])
@@ -29,13 +30,9 @@ class LandingController extends Controller
 				->where('campaigns.active', true)
 				->where('offers.active', true)
 				->first();
-
+var_dump($campaign);
 			if ($campaign)
 			{
-				$cloaker = new Cloaker();
-				
-				var_dump($cloaker);
-
 				return view('landing', []);
 			}
         }

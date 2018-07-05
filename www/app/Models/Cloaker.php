@@ -116,4 +116,21 @@ class Cloaker
 	        }
         }
 	}
+	
+	
+	public function isPlatformRobot(): bool
+	{
+		return $this->platform === 'Robot';
+	}
+
+
+	public function isShowBlackLanding(): bool
+	{
+		if ($this->referer || empty($this->platform) || empty($this->ip) || empty($this->country) || $this->isPlatformRobot())
+		{
+			return false;
+		}
+		
+		return true;
+	}
 }
