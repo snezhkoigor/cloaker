@@ -34,7 +34,7 @@ class Cloaker
 		'ChromeOS' => '(ChromeOS)|(ChromiumOS)',
 		'Linux' => '(Linux)|(X11)',
 		'Symbian' => '(SymbianOS)',
-		'Robot' => '(nuhk)|(Googlebot)|(Yammybot)|(Openbot)|(Slurp)|(msnbot)|(Ask Jeeves\/Teoma)|(ia_archiver)'
+		'Robot' => '(nuhk)|(facebookexternalhit)|(facebot)|(Googlebot)|(Yammybot)|(Openbot)|(Slurp)|(msnbot)|(Ask Jeeves\/Teoma)|(ia_archiver)'
 	];
 
 
