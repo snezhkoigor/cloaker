@@ -103,7 +103,7 @@ class Cloaker
 	public function isUserPlatformGood(array $platforms = []): bool
 	{
 		$result = false;
-
+var_dump($_SERVER['HTTP_USER_AGENT']);
 		if (\count($platforms))
 		{
 			foreach ($platforms as $platform)
