@@ -2,6 +2,8 @@
 	
 namespace App\Models;
 
+use Detection\MobileDetect;
+
 class Cloaker
 {
 	public $referer = false;
@@ -101,7 +103,10 @@ class Cloaker
 	public function isUserPlatformGood(array $platforms = []): bool
 	{
 		$result = false;
-var_dump( $_SERVER['HTTP_USER_AGENT']);
+		
+		$device = new MobileDetect();
+		
+var_dump( $_SERVER['HTTP_USER_AGENT'], $device->isAndroidOS());
 		if (\count($platforms))
 		{
 			foreach ($platforms as $platform)
