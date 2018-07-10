@@ -84,7 +84,8 @@ class Cloaker
 
 	public function isPlatformRobot(): bool
 	{
-		return preg_match('/(zgrab\/0\.x|python\-requests|python\-urllib|facebookexternalhit\/1\.1|proximic|facebookexternalhit\/1\.0|facebook|facebookexternalhit|facebot)/i', $_SERVER['HTTP_USER_AGENT']);
+		$detect = new \Mobile_Detect();
+		return $detect->is('Bot') || preg_match('/(zgrab\/0\.x|python\-requests|python\-urllib|facebookexternalhit\/1\.1|proximic|facebookexternalhit\/1\.0|facebook|facebookexternalhit|facebot)/i', $_SERVER['HTTP_USER_AGENT']);
 	}
 
 
