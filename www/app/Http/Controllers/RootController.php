@@ -6,7 +6,7 @@ use App\Models\Cloaker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
-class LandingController extends Controller
+class RootController extends Controller
 {
 	/**
 	 * @param $campaign_id
@@ -57,6 +57,4 @@ class LandingController extends Controller
 
         return view('welcome');
     }
-
-    //
 }
