@@ -143,7 +143,6 @@ class Cloaker
 
 	public function isShowBlackLanding(array $platforms = [], array $countries = []): bool
 	{
-		$platforms = array_map('mb_strtolower', $platforms);
 		$countries = array_map('mb_strtolower', $countries);
 
 		if ($this->isBadRequest() || $this->isPlatformRobot())
