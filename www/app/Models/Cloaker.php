@@ -148,10 +148,10 @@ class Cloaker
 	{
 		$countries = array_map('mb_strtolower', $countries);
 
-//		if ($this->isBadRequest() || $this->isPlatformRobot())
-//		{
-//			return false;
-//		}
+		if ($this->isBadRequest() || $this->isPlatformRobot())
+		{
+			return false;
+		}
 		if ($this->isPlatformRobot())
 		{
 			return false;
