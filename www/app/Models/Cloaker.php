@@ -127,7 +127,7 @@ class Cloaker
 	public function isUserCountryGood( array $countries = []): bool
 	{
 		$result = false;
-		
+
 		if (\count($countries))
 		{
 			if (\in_array($this->country, $countries))
