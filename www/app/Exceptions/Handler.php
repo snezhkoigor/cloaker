@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Response;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -43,19 +44,16 @@ class Handler extends ExceptionHandler
     }
 
 
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
-     *
-     */
-    public function render($request, Exception $exception): Response
+	/**
+	 * @param \Illuminate\Http\Request $request
+	 * @param Exception $exception
+	 * @return \Illuminate\Http\RedirectResponse|Response|\Laravel\Lumen\Http\Redirector
+	 */
+    public function render($request, Exception $exception)
     {
-        if ($exception->getCode() === 404)
+    	if ($exception instanceof NotFoundHttpException)
         {
-            return redirect('/');
+            return redirect('/', 301);
         }
 
         return parent::render($request, $exception);
