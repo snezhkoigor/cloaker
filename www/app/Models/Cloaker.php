@@ -20,31 +20,11 @@ class Cloaker
 
 
 	/**
-	 * Список платформ для инициализации текущего соединения
-	 *
-	 * @var array
-	 */
-	public static $o = [
-		'Windows' => '(Windows)',
-		'Android' => '(Android)',
-		'IOs' => '(iPod)|(iPhone)|(iPad)',
-		'MacOS' => '(Mac OS)|(Mac_PowerPC)|(PowerPC)|(Macintosh)',
-		'UNIX' => '(UNIX)',
-		'Ubuntu' => '(Ubuntu)',
-		'ChromeOS' => '(ChromeOS)|(ChromiumOS)',
-		'Linux' => '(Linux)|(X11)',
-		'Symbian' => '(SymbianOS)',
-		'Robot' => '(nuhk)|(facebookexternalhit)|(facebot)|(Googlebot)|(Yammybot)|(Openbot)|(Slurp)|(msnbot)|(Ask Jeeves\/Teoma)|(ia_archiver)'
-	];
-
-
-	/**
 	 * Cloaker constructor.
 	 */
 	public function __construct()
 	{
 		$this->getReferer();
-		$this->getPlatform();
 		$this->getIp();
 		$this->getCountry();
 	}
@@ -64,26 +44,8 @@ class Cloaker
 			}
 		}
 	}
-	
-	
-	/**
-	 * Получение платформы текущего соединения
-	 */
-	public function getPlatform(): void
-	{
-		if (isset($_SERVER['HTTP_USER_AGENT']))
-		{
-			foreach (self::$o as $s => $p)
-			{
-				if (empty($this->platform) && preg_match('/' . $p . '/i', $_SERVER['HTTP_USER_AGENT']))
-				{
-					$this->platform = mb_strtolower($s);
-				}
-			}
-		}
-	}
-	
-	
+
+
 	/**
 	 * Получение реферера текущего соединения
 	 */
@@ -120,7 +82,62 @@ class Cloaker
 
 	public function isPlatformRobot(): bool
 	{
-		return $this->platform === 'Robot';
+		return preg_match('/(zgrab\/0\.x|python\-requests|python\-urllib|facebookexternalhit\/1\.1|proximic|facebookexternalhit\/1\.0|facebook|facebookexternalhit|facebot/i', $_SERVER['HTTP_USER_AGENT']);
+	}
+
+
+	public function isIpInBlackList(): bool
+	{
+		return $this->ip && \in_array($this->ip, config('black_ips'));
+	}
+
+
+	public function isBadRequest(): bool
+	{
+		return $this->referer || empty($this->ip) || empty($this->country);
+	}
+
+
+	public function isUserPlatformGood(array $platforms = []): bool
+	{
+		$result = false;
+		
+		if (\count($platforms))
+		{
+			foreach ($platforms as $platform)
+			{
+				if (preg_match($platform['rule'], $_SERVER['HTTP_USER_AGENT']))
+				{
+					$result = true;
+				}
+			}
+		}
+		else
+		{
+			$result = true;
+		}
+
+		return $result;
+	}
+
+
+	public function isUserCountryGood( array $countries = []): bool
+	{
+		$result = false;
+		
+		if (\count($countries))
+		{
+			if (\in_array($this->country, $countries))
+			{
+				$result = true;
+			}
+		}
+		else
+		{
+			$result = true;
+		}
+
+		return $result;
 	}
 
 
@@ -129,22 +146,23 @@ class Cloaker
 		$platforms = array_map('mb_strtolower', $platforms);
 		$countries = array_map('mb_strtolower', $countries);
 
-		if ($this->referer || empty($this->platform) || empty($this->ip) || empty($this->country) || $this->isPlatformRobot())
+		if ($this->isBadRequest() || $this->isPlatformRobot())
 		{
 			return false;
 		}
-
-		if (\in_array($this->ip, config('black_ips')))
+		if ($this->isPlatformRobot())
 		{
 			return false;
 		}
-
-		if (\count($platforms) && !in_array($this->platform, $platforms))
+		if ($this->isIpInBlackList())
 		{
 			return false;
 		}
-
-		if (\count($countries) && !in_array($this->country, $countries))
+		if ($this->isUserPlatformGood($platforms) === false)
+		{
+			return false;
+		}
+		if ($this->isUserCountryGood($countries) === false)
 		{
 			return false;
 		}

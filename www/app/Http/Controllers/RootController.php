@@ -35,9 +35,10 @@ class RootController extends Controller
         	$cloaker = new Cloaker();
 
 			$platforms = DB::table('dictionaries.platforms')
+				->select([ 'dictionaries.platforms.name', 'dictionaries.platforms.rule' ])
 				->join('offers_has_platforms', 'offers_has_platforms.platform_id', '=', 'dictionaries.platforms.id')
 				->where('offers_has_platforms.offer_id', $campaign->offer_id)
-				->pluck('dictionaries.platforms.name')
+				->get()
 				->toArray();
 
 			$countries = DB::table('dictionaries.countries')
