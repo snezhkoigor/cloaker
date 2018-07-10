@@ -103,10 +103,7 @@ class Cloaker
 	public function isUserPlatformGood(array $platforms = []): bool
 	{
 		$result = false;
-		
-		$detect = new \Mobile_Detect();
 
-var_dump( $_SERVER['HTTP_USER_AGENT'], $detect->isAndroidOS(), $detect->isMobile());
 		if (\count($platforms))
 		{
 			foreach ($platforms as $platform)
@@ -114,6 +111,7 @@ var_dump( $_SERVER['HTTP_USER_AGENT'], $detect->isAndroidOS(), $detect->isMobile
 				if (preg_match($platform->rule, $_SERVER['HTTP_USER_AGENT']))
 				{
 					$result = true;
+					break;
 				}
 			}
 		}
@@ -150,10 +148,10 @@ var_dump( $_SERVER['HTTP_USER_AGENT'], $detect->isAndroidOS(), $detect->isMobile
 	{
 		$countries = array_map('mb_strtolower', $countries);
 
-		if ($this->isBadRequest() || $this->isPlatformRobot())
-		{
-			return false;
-		}
+//		if ($this->isBadRequest() || $this->isPlatformRobot())
+//		{
+//			return false;
+//		}
 		if ($this->isPlatformRobot())
 		{
 			return false;
