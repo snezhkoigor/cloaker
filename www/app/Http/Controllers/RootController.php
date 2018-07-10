@@ -12,7 +12,7 @@ class RootController extends Controller
 	 * @param $campaign_id
 	 * @return \Illuminate\View\View
 	 */
-    public function index($campaign_id): View
+    public function index($campaign_id = null): View
     {
     	if ($campaign_id)
         {

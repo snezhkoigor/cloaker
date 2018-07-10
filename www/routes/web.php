@@ -11,4 +11,4 @@
 |
 */
 
-$router->get('/{campaign_id}', 'RootController@index');
+$router->get('/{campaign_id?}', 'RootController@index');
