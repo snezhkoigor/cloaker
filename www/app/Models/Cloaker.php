@@ -106,7 +106,7 @@ class Cloaker
 		{
 			foreach ($platforms as $platform)
 			{
-				if (preg_match($platform['rule'], $_SERVER['HTTP_USER_AGENT']))
+				if (preg_match($platform->rule, $_SERVER['HTTP_USER_AGENT']))
 				{
 					$result = true;
 				}
