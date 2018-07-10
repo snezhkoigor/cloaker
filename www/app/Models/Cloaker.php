@@ -106,7 +106,7 @@ class Cloaker
 		
 		$device = new MobileDetect();
 		
-var_dump( $_SERVER['HTTP_USER_AGENT'], $device->isAndroidOS());
+var_dump( $_SERVER['HTTP_USER_AGENT'], $device->isAndroidOS(), $device->isMobile());
 		if (\count($platforms))
 		{
 			foreach ($platforms as $platform)
