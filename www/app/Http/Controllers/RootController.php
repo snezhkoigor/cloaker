@@ -54,7 +54,7 @@ class RootController extends Controller
 			{
 				DB::table('cloaking.logs')
 					->updateOrInsert([ 'ip' => $cloaker->ip ], [
-						'ip' => ip2long($cloaker->ip),
+						'ip' => $cloaker->ip,
 						'campaign_id' => (int)$campaign_id,
 						'referer' => $cloaker->referer,
 						'platform' => json_encode($cloaker->platform),
