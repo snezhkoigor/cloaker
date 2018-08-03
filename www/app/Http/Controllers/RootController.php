@@ -56,35 +56,32 @@ class RootController extends Controller
 				$log = DB::table('cloaking.logs')
 					->where('ip', $cloaker->ip)
 					->first();
-var_dump($cloaker->referer, isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']));
+var_dump($cloaker->referer,isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']));
 				if ($log === null)
 				{
-					DB::table('cloaking.logs')
-						->insert([
-							'ip' => $cloaker->ip,
-							'campaign_id' => (int)$campaign_id,
-							'is_referer' => (string)$cloaker->referer,
-							'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
-							'geo' => json_encode($cloaker->geo),
-							'user_agent' => $cloaker->user_agent,
-							'is_showed_black' => $cloaker->isShowBlackLanding($platforms, $countries),
-							'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-							'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-						]);
+					DB::table('cloaking.logs')->insert([
+						'ip' => $cloaker->ip,
+						'campaign_id' => (int)$campaign_id,
+						'is_referer' => $cloaker->referer ? 'true' : 'false',
+						'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
+						'geo' => json_encode($cloaker->geo),
+						'user_agent' => $cloaker->user_agent,
+						'is_showed_black' => $cloaker->isShowBlackLanding($platforms, $countries),
+						'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+						'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+					]);
 				}
 				else
 				{
-					DB::table('cloaking.logs')
-						->where('ip', $cloaker->ip)
-						->update([
-							'campaign_id' => (int)$campaign_id,
-							'is_referer' => (string)$cloaker->referer,
-							'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
-							'geo' => json_encode($cloaker->geo),
-							'user_agent' => $cloaker->user_agent,
-							'is_showed_black' => $cloaker->isShowBlackLanding($platforms, $countries),
-							'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-						]);
+					DB::table('cloaking.logs')->where('ip', $cloaker->ip)->update([
+						'campaign_id' => (int)$campaign_id,
+						'is_referer' => $cloaker->referer ? 'true' : 'false',
+						'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
+						'geo' => json_encode($cloaker->geo),
+						'user_agent' => $cloaker->user_agent,
+						'is_showed_black' => $cloaker->isShowBlackLanding($platforms, $countries),
+						'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+					]);
 				}
 			}
 
