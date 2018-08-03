@@ -4,9 +4,6 @@ namespace App\Models;
 
 class Cloaker
 {
-	public $referer;
-
-
 	public $platform;
 
 
@@ -24,7 +21,6 @@ class Cloaker
 	 */
 	public function __construct()
 	{
-		$this->setReferer();
 		$this->setIp();
 		$this->setGeo();
 		$this->setPlatform();
@@ -71,19 +67,6 @@ class Cloaker
 
 
 	/**
-	 * Получение реферера текущего соединения
-	 */
-	public function setReferer(): void
-	{
-		$this->referer = false;
-		if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']))
-		{
-			$this->referer = true;
-		}
-	}
-
-
-	/**
 	 * Получение IP текущего соединения
 	 */
 	public function setIp(): void
@@ -120,7 +103,7 @@ class Cloaker
 
 	public function isBadRequest(): bool
 	{
-		return $this->referer || empty($this->ip) || empty($this->country);
+		return empty($this->ip) || empty($this->country);
 	}
 
 

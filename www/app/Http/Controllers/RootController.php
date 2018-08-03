@@ -61,7 +61,6 @@ class RootController extends Controller
 				{
 					DB::table('cloaking.logs')->where('ip', $cloaker->ip)->update([
 						'campaign_id' => (int)$campaign_id,
-						'referer' => $cloaker->referer,
 						'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
 						'geo' => json_encode($cloaker->geo),
 						'user_agent' => $cloaker->user_agent,
@@ -74,7 +73,6 @@ class RootController extends Controller
 					DB::table('cloaking.logs')->insert([
 						'ip' => $cloaker->ip,
 						'campaign_id' => (int)$campaign_id,
-						'referer' => $cloaker->referer,
 						'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
 						'geo' => json_encode($cloaker->geo),
 						'user_agent' => $cloaker->user_agent,
