@@ -137,7 +137,7 @@ class Cloaker
 
 		if (\count($countries))
 		{
-			if (\in_array(mb_strtolower($this->geo->country->isoCode), $countries, false))
+			if (\in_array(mb_strtolower($this->geo->country->isoCode), $countries))
 			{
 				$result = true;
 			}
