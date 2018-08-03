@@ -84,7 +84,7 @@ class RootController extends Controller
 					]);
 				}
 			}
-
+var_dump((isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])));
 			return view('landing', (array)$campaign, []);
         }
 
