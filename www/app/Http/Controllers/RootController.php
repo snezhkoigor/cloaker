@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cloaker;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -52,16 +53,39 @@ class RootController extends Controller
 
 			if ($cloaker->ip)
 			{
-				DB::table('cloaking.logs')
-					->updateOrCreate([ 'ip' => $cloaker->ip ], [
-						'ip' => $cloaker->ip,
-						'campaign_id' => (int)$campaign_id,
-						'referer' => (bool)$cloaker->referer,
-						'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
-						'geo' => json_encode($cloaker->geo),
-						'user_agent' => $cloaker->user_agent,
-						'is_showed_black' => (int)$cloaker->isShowBlackLanding($platforms, $countries),
-					]);
+				$log = DB::table('cloaking.logs')
+					->where('ip', $cloaker->ip)
+					->get();
+
+				if ($log === null)
+				{
+					DB::table('cloaking.logs')
+						->insert([
+							'ip' => $cloaker->ip,
+							'campaign_id' => (int)$campaign_id,
+							'is_referer' => $cloaker->referer,
+							'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
+							'geo' => json_encode($cloaker->geo),
+							'user_agent' => $cloaker->user_agent,
+							'is_showed_black' => (int)$cloaker->isShowBlackLanding($platforms, $countries),
+							'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+							'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+						]);
+				}
+				else
+				{
+					DB::table('cloaking.logs')
+						->where('ip', $cloaker->ip)
+						->update([
+							'campaign_id' => (int)$campaign_id,
+							'is_referer' => $cloaker->referer,
+							'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
+							'geo' => json_encode($cloaker->geo),
+							'user_agent' => $cloaker->user_agent,
+							'is_showed_black' => (int)$cloaker->isShowBlackLanding($platforms, $countries),
+							'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+						]);
+				}
 			}
 
 			return view('landing', (array)$campaign, []);
