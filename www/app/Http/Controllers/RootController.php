@@ -56,8 +56,8 @@ class RootController extends Controller
 					->updateOrInsert([ 'ip' => $cloaker->ip ], [
 						'ip' => $cloaker->ip,
 						'campaign_id' => (int)$campaign_id,
-						'referer' => (int)$cloaker->referer,
-						'platform' => serialize($cloaker->platform),
+						'referer' => (bool)$cloaker->referer,
+						'platform' => json_encode((array)$cloaker->platform),
 						'geo' => json_encode($cloaker->geo),
 						'user_agent' => $cloaker->user_agent,
 						'is_showed_black' => (int)$cloaker->isShowBlackLanding($platforms, $countries),
