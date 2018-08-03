@@ -55,8 +55,8 @@ class RootController extends Controller
 			{
 				$log = DB::table('cloaking.logs')
 					->where('ip', $cloaker->ip)
-					->get();
-var_dump($log);
+					->first();
+
 				if ($log === null)
 				{
 					DB::table('cloaking.logs')
