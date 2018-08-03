@@ -80,7 +80,6 @@ class Cloaker
 		{
 			$this->referer = true;
 		}
-		var_dump($this->referer);
 	}
 
 
