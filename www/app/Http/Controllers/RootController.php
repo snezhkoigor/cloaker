@@ -51,13 +51,13 @@ class RootController extends Controller
 			$campaign->landing_html = str_replace('{offer_link}', $campaign->offer_link, $campaign->landing_html);
 
 			if ($cloaker->ip)
-			{var_dump($cloaker->referer);
+			{
 				DB::table('cloaking.logs')
 					->updateOrInsert([ 'ip' => $cloaker->ip ], [
 						'ip' => $cloaker->ip,
 						'campaign_id' => (int)$campaign_id,
 						'referer' => (int)$cloaker->referer,
-						'platform' => json_encode((array)$cloaker->platform),
+						'platform' => json_encode($cloaker->platform, JSON_FORCE_OBJECT),
 						'geo' => json_encode($cloaker->geo),
 						'user_agent' => $cloaker->user_agent,
 						'is_showed_black' => (int)$cloaker->isShowBlackLanding($platforms, $countries),
