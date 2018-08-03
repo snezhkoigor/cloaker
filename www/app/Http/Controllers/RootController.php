@@ -51,7 +51,7 @@ class RootController extends Controller
 			$campaign->landing_html = str_replace('{offer_link}', $campaign->offer_link, $campaign->landing_html);
 
 			if ($cloaker->ip)
-			{
+			{var_dump($cloaker);
 				DB::table('cloaking.logs')
 					->updateOrInsert([ 'ip' => $cloaker->ip ], [
 						'ip' => $cloaker->ip,
