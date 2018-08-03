@@ -4,7 +4,7 @@ namespace App\Models;
 
 class Cloaker
 {
-	public $referer = false;
+	public $referer;
 
 
 	public $platform;
@@ -75,6 +75,7 @@ class Cloaker
 	 */
 	public function setReferer(): void
 	{
+		$this->referer = false;
 		if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']))
 		{
 			$this->referer = true;
