@@ -63,7 +63,7 @@ class RootController extends Controller
 						->insert([
 							'ip' => $cloaker->ip,
 							'campaign_id' => (int)$campaign_id,
-							'is_referer' => $cloaker->referer ? 1 : 0,
+							'is_referer' => (int)$cloaker->referer,
 							'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
 							'geo' => json_encode($cloaker->geo),
 							'user_agent' => $cloaker->user_agent,
@@ -78,7 +78,7 @@ class RootController extends Controller
 						->where('ip', $cloaker->ip)
 						->update([
 							'campaign_id' => (int)$campaign_id,
-							'is_referer' => $cloaker->referer ? 1 : 0,
+							'is_referer' => (int)$cloaker->referer,
 							'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
 							'geo' => json_encode($cloaker->geo),
 							'user_agent' => $cloaker->user_agent,
