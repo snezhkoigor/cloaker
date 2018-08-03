@@ -2,8 +2,6 @@
 	
 namespace App\Models;
 
-use Detection\MobileDetect;
-
 class Cloaker
 {
 	public $referer = false;
@@ -12,7 +10,7 @@ class Cloaker
 	public $platform;
 
 
-	public $country;
+	public $geo;
 
 
 	public $ip;
@@ -26,50 +24,74 @@ class Cloaker
 	 */
 	public function __construct()
 	{
-		$this->getReferer();
-		$this->getIp();
-		$this->getCountry();
+		$this->setReferer();
+		$this->setIp();
+		$this->setGeo();
+		$this->setPlatform();
+		$this->setUserAgent();
 	}
 
 
 	/**
 	 * Получение страны текущего соединения по IP
 	 */
-	public function getCountry(): void
+	public function setGeo(): void
 	{
 		if ($this->ip)
 		{
 			$record = app()->geoip->getLocation($this->ip);
 			if ($record)
 			{
-				$this->country = mb_strtolower($record->country->isoCode);
+				$this->geo = $record;
 			}
 		}
 	}
 
 
 	/**
+	 * Получение платформы
+	 */
+	public function setPlatform(): void
+	{
+		$detect = new \Mobile_Detect();
+		if ($detect)
+		{
+			$this->platform = $detect;
+		}
+	}
+
+
+	/**
+	 * Получение платформы
+	 */
+	public function setUserAgent(): void
+	{
+		$this->user_agent = $_SERVER['HTTP_USER_AGENT'];
+	}
+
+
+	/**
 	 * Получение реферера текущего соединения
 	 */
-	public function getReferer(): void
+	public function setReferer(): void
 	{
 		if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']))
 		{
 			$this->referer = true;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Получение IP текущего соединения
 	 */
-	public function getIp(): void
+	public function setIp(): void
 	{
 		foreach (['HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR'] as $key)
 		{
-	        if (array_key_exists($key, $_SERVER) === true)
+			if (array_key_exists($key, $_SERVER) === true)
 	        {
-	            foreach (explode(',', $_SERVER[$key]) as $ip)
+	        	foreach (explode(',', $_SERVER[$key]) as $ip)
 	            {
 	                $ip = trim($ip); // just to be safe
 	                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false)
@@ -85,13 +107,13 @@ class Cloaker
 	public function isPlatformRobot(): bool
 	{
 		$detect = new \Mobile_Detect();
-		return $detect->is('Bot') || preg_match('/(zgrab\/0\.x|python\-requests|python\-urllib|facebookexternalhit\/1\.1|proximic|facebookexternalhit\/1\.0|facebook|facebookexternalhit|facebot)/i', $_SERVER['HTTP_USER_AGENT']);
+		return $detect->is('Bot') || preg_match('/(zgrab\/0\.x|python\-requests|python\-urllib|facebookexternalhit\/1\.1|proximic|facebookexternalhit\/1\.0|facebook|facebookexternalhit|facebot)/i', $this->user_agent);
 	}
 
 
 	public function isIpInBlackList(): bool
 	{
-		return $this->ip && \in_array($this->ip, config('black_ips'));
+		return $this->ip && \in_array($this->ip, config('black_ips'), false);
 	}
 
 
@@ -109,7 +131,7 @@ class Cloaker
 		{
 			foreach ($platforms as $platform)
 			{
-				if (preg_match($platform->rule, $_SERVER['HTTP_USER_AGENT']))
+				if (preg_match($platform->rule, $this->user_agent))
 				{
 					$result = true;
 					break;
@@ -131,7 +153,7 @@ class Cloaker
 
 		if (\count($countries))
 		{
-			if (\in_array($this->country, $countries))
+			if (\in_array(mb_strtolower($this->geo->country->isoCode), $countries, false))
 			{
 				$result = true;
 			}

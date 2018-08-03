@@ -50,6 +50,20 @@ class RootController extends Controller
 			$campaign->landing_html = $cloaker->isShowBlackLanding($platforms, $countries) ?  $campaign->black_landing :  $campaign->white_landing;
 			$campaign->landing_html = str_replace('{offer_link}', $campaign->offer_link, $campaign->landing_html);
 
+			if ($cloaker->ip)
+			{
+				DB::table('cloaking.logs')
+					->updateOrInsert([ 'ip' => $cloaker->ip ], [
+						'ip' => ip2long($cloaker->ip),
+						'campaign_id' => (int)$campaign_id,
+						'referer' => $cloaker->referer,
+						'platform' => json_encode($cloaker->platform),
+						'geo' => json_encode($cloaker->geo),
+						'user_agent' => $cloaker->user_agent,
+						'is_showed_black' => $cloaker->isShowBlackLanding($platforms, $countries),
+					]);
+			}
+
 			return view('landing', (array)$campaign, []);
         }
 
