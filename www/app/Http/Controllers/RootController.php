@@ -74,6 +74,7 @@ class RootController extends Controller
 				}
 				else
 				{
+					var_dump($cloaker->referer);
 					DB::table('cloaking.logs')
 						->where('ip', $cloaker->ip)
 						->update([
