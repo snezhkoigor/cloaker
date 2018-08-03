@@ -53,7 +53,7 @@ class RootController extends Controller
 			if ($cloaker->ip)
 			{
 				DB::table('cloaking.logs')
-					->updateOrInsert([ 'ip' => $cloaker->ip ], [
+					->updateOrCreate([ 'ip' => $cloaker->ip ], [
 						'ip' => $cloaker->ip,
 						'campaign_id' => (int)$campaign_id,
 						'referer' => (bool)$cloaker->referer,
