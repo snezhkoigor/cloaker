@@ -155,9 +155,14 @@ class Cloaker
 	{
 		$countries = array_map('mb_strtolower', $countries);
 
-		if ($this->isBadRequest() || $this->isPlatformRobot())
+		if ($this->isBadRequest())
 		{
 			var_dump('1');
+			return false;
+		}
+		if ($this->isPlatformRobot())
+		{
+			var_dump('5');
 			return false;
 		}
 		if ($this->isIpInBlackList())
