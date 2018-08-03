@@ -157,18 +157,22 @@ class Cloaker
 
 		if ($this->isBadRequest() || $this->isPlatformRobot())
 		{
+			var_dump('1');
 			return false;
 		}
 		if ($this->isIpInBlackList())
 		{
+			var_dump('2');
 			return false;
 		}
 		if ($this->isUserPlatformGood($platforms) === false)
 		{
+			var_dump('3');
 			return false;
 		}
 		if ($this->isUserCountryGood($countries) === false)
 		{
+			var_dump('4');
 			return false;
 		}
 
