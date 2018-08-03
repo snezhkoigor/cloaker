@@ -159,10 +159,6 @@ class Cloaker
 		{
 			return false;
 		}
-		if ($this->isPlatformRobot())
-		{
-			return false;
-		}
 		if ($this->isIpInBlackList())
 		{
 			return false;
