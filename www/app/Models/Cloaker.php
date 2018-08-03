@@ -103,7 +103,7 @@ class Cloaker
 
 	public function isBadRequest(): bool
 	{
-		return empty($this->ip) || empty($this->country);
+		return empty($this->ip) || empty($this->geo);
 	}
 
 
@@ -157,27 +157,22 @@ class Cloaker
 
 		if ($this->isBadRequest())
 		{
-			var_dump('1');
 			return false;
 		}
 		if ($this->isPlatformRobot())
 		{
-			var_dump('5');
 			return false;
 		}
 		if ($this->isIpInBlackList())
 		{
-			var_dump('2');
 			return false;
 		}
 		if ($this->isUserPlatformGood($platforms) === false)
 		{
-			var_dump('3');
 			return false;
 		}
 		if ($this->isUserCountryGood($countries) === false)
 		{
-			var_dump('4');
 			return false;
 		}
 
