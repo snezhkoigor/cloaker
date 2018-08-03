@@ -54,14 +54,17 @@ class RootController extends Controller
 			if ($cloaker->ip)
 			{
 				DB::table('cloaking.logs')
-					->updateOrInsert([ 'ip', $cloaker->ip ],[
-						'campaign_id' => (int)$campaign_id,
-						'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
-						'geo' => json_encode($cloaker->geo),
-						'user_agent' => $cloaker->user_agent,
-						'is_showed_black' => $cloaker->isShowBlackLanding($platforms, $countries),
-						'datetime' => Carbon::now()->format('Y-m-d H:i:s')
-					]);
+					->updateOrInsert([
+							'ip' => $cloaker->ip
+						], [
+							'campaign_id' => (int)$campaign_id,
+							'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
+							'geo' => json_encode($cloaker->geo),
+							'user_agent' => $cloaker->user_agent,
+							'is_showed_black' => $cloaker->isShowBlackLanding($platforms, $countries),
+							'datetime' => Carbon::now()->format('Y-m-d H:i:s')
+						]
+					);
 			}
 
 			return view('landing', (array)$campaign, []);
