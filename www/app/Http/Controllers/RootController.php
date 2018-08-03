@@ -67,7 +67,7 @@ class RootController extends Controller
 							'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
 							'geo' => json_encode($cloaker->geo),
 							'user_agent' => $cloaker->user_agent,
-							'is_showed_black' => (int)$cloaker->isShowBlackLanding($platforms, $countries),
+							'is_showed_black' => !$cloaker->isShowBlackLanding($platforms, $countries),
 							'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
 							'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
 						]);
@@ -82,7 +82,7 @@ class RootController extends Controller
 							'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
 							'geo' => json_encode($cloaker->geo),
 							'user_agent' => $cloaker->user_agent,
-							'is_showed_black' => (int)$cloaker->isShowBlackLanding($platforms, $countries),
+							'is_showed_black' => !$cloaker->isShowBlackLanding($platforms, $countries),
 							'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
 						]);
 				}
