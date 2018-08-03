@@ -56,7 +56,7 @@ class RootController extends Controller
 				$log = DB::table('cloaking.logs')
 					->where('ip', $cloaker->ip)
 					->first();
-
+var_dump(isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']));
 				if ($log === null)
 				{
 					DB::table('cloaking.logs')
