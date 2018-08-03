@@ -57,7 +57,7 @@ class RootController extends Controller
 						'ip' => $cloaker->ip,
 						'campaign_id' => (int)$campaign_id,
 						'referer' => (int)$cloaker->referer,
-						'platform' => json_encode($cloaker->platform, JSON_FORCE_OBJECT),
+						'platform' => serialize($cloaker->platform),
 						'geo' => json_encode($cloaker->geo),
 						'user_agent' => $cloaker->user_agent,
 						'is_showed_black' => (int)$cloaker->isShowBlackLanding($platforms, $countries),
