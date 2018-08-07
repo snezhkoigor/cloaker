@@ -20,6 +20,7 @@ class RootController extends Controller
 				'campaigns.name',
 				'campaigns.black_landing',
 				'campaigns.white_landing',
+				'campaigns.cloaking_server_id',
 				DB::raw('NULL as landing_html'),
 				DB::raw('offers.link as offer_link'),
 				DB::raw('offers.id as offer_id')
@@ -53,16 +54,27 @@ class RootController extends Controller
 
 			if ($cloaker->ip)
 			{
-				DB::table('cloaking.logs')
+				DB::table('activity_log')
 					->updateOrInsert([
-							'ip' => $cloaker->ip
+							'description' => $cloaker->ip
 						], [
-							'campaign_id' => (int)$campaign_id,
-							'platform' => json_encode((array)$cloaker->platform, JSON_FORCE_OBJECT),
-							'geo' => json_encode($cloaker->geo),
-							'user_agent' => $cloaker->user_agent,
-							'is_showed_black' => $cloaker->isShowBlackLanding($platforms, $countries),
-							'datetime' => Carbon::now()->format('Y-m-d H:i:s')
+							'log_name' => 'cloaking',
+							'description' => $cloaker->ip,
+							'subject_type' => 'App\Models\Cloaking\Server',
+							'subject_id' => $campaign->cloaking_server_id,
+							'causer_id' => null,
+							'causer_type' => null,
+							'properties' => json_encode([
+								'attributes' => [
+									'campaign_id' => (int)$campaign_id,
+									'geo' => $cloaker->geo,
+									'user_agent' => $cloaker->user_agent,
+									'is_showed_black' => $cloaker->isShowBlackLanding($platforms, $countries),
+								],
+								'old' => []
+							]),
+							'created_at' => Carbon::now(),
+							'updated_at' => Carbon::now()
 						]
 					);
 			}
