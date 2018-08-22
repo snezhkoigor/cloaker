@@ -56,7 +56,7 @@
                 </div>
             </div>
         </div>
-        <div class="ui-title" id="rot"></div>
+        <div class="ui-title" id="rot" style="display: none"></div>
     </body>
     <script>
         $(window).load(function() {

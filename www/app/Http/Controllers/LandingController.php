@@ -15,11 +15,7 @@ class LandingController extends Controller
 	 */
     public function __invoke($campaign_id = null): View
     {
-    	$view = view('xyz');
-		var_dump($view->render());die;
-
-    	
-    	$campaign = DB::table('campaigns')
+        $campaign = DB::table('campaigns')
 			->select([
 				'campaigns.name',
 				'campaigns.black_landing',
@@ -36,9 +32,21 @@ class LandingController extends Controller
 			->where('offers.active', true)
 			->first();
 
-    	if ($campaign)
+        if ($campaign)
         {
-        	$cloaker = new Cloaker();
+            $runfile = 'http' . (!empty($_SERVER['HTTPS']) ? 's://' : '://' ) . $_SERVER['HTTP_HOST'];
+
+		    $ch = curl_init();
+
+		    curl_setopt($ch, CURLOPT_URL, '/');
+		    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		    $content = curl_exec($ch);
+
+		    curl_close($ch);
+            
+            var_dump($content, 1);die;
+
+            $cloaker = new Cloaker();
 
 			$platforms = DB::table('dictionaries.platforms')
 				->select([ 'dictionaries.platforms.name', 'dictionaries.platforms.rule' ])

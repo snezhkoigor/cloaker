@@ -12,4 +12,3 @@
 */
 
 $router->get('/[{campaign_id}]', 'LandingController');
-//$router->get('/xyz', 'XyzController');
