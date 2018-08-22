@@ -11,4 +11,5 @@
 |
 */
 
-$router->get('/[{campaign_id}]', 'RootController@index');
+$router->get('/[{campaign_id}]', 'LandingController');
+//$router->get('/xyz', 'XyzController');

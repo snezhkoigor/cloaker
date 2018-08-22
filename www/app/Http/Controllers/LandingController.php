@@ -7,14 +7,18 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
-class RootController extends Controller
+class LandingController extends Controller
 {
 	/**
 	 * @param $campaign_id
 	 * @return \Illuminate\View\View
 	 */
-    public function index($campaign_id = null): View
+    public function __invoke($campaign_id = null): View
     {
+    	$view = view('xyz');
+		var_dump($view->render());die;
+
+    	
     	$campaign = DB::table('campaigns')
 			->select([
 				'campaigns.name',
