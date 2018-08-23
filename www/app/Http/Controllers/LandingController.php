@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cloaker;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -36,15 +37,11 @@ class LandingController extends Controller
         {
             $runfile = 'http' . (!empty($_SERVER['HTTPS']) ? 's://' : '://' ) . $_SERVER['HTTP_HOST'];
 
-		    $ch = curl_init();
-
-		    curl_setopt($ch, CURLOPT_URL, '/');
-		    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		    $content = curl_exec($ch);
-
-		    curl_close($ch);
             
-            var_dump($content, 1);die;
+            $client = new Client(['base_uri' => $runfile]);
+
+            $response = $client->request('GET', '/?xyz');
+            var_dump($response->getBody());die;
 
             $cloaker = new Cloaker();
 
