@@ -41,7 +41,7 @@ class LandingController extends Controller
             $client = new Client(['base_uri' => $runfile]);
 
             $response = $client->request('GET', '/?xyz');
-            var_dump($response->getBody()->getContents());die;
+            echo $response->getBody()->getContents();die;
 
             $cloaker = new Cloaker();
 
