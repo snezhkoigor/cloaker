@@ -15,36 +15,7 @@ class LandingController extends Controller
 	 */
     public function __invoke($campaign_id = null): View
     {
-    	print
-<<< FM
-		<script>
-			function getCookie (name) {
-			  	var matches = document.cookie.match(new RegExp(
-			    	"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-			  	));
-			  	return matches ? decodeURIComponent(matches[1]) : undefined;
-			}
-
-			window.addEventListener('devicemotion', function(e) {
-				ax = e.accelerationIncludingGravity.x;
-				ay = -e.accelerationIncludingGravity.y;
-				az = -e.accelerationIncludingGravity.z;
-				rotx = e.rotationRate.alpha ;
-				roty = e.rotationRate.beta ;
-				rotz = e.rotationRate.gamma ;
-
-			    document.cookie = "device_motion=1; path=/;";
-
-			    if (getCookie('device_motion_red') === undefined) {
-			        document.cookie = "device_motion_red=1; path=/;";
-			        // window.location.href = 'http://yandex.ru';
-			    	window.location.reload();
-			    }
-			});
-		</script>
-FM;
-
-        $campaign = DB::table('campaigns')
+    	$campaign = DB::table('campaigns')
 			->select([
 				'campaigns.name',
 				'campaigns.black_landing',
