@@ -67,7 +67,7 @@ FM;
 				->where('offers_has_countries.offer_id', $campaign->offer_id)
 				->pluck('dictionaries.countries.iso_3166_2')
 				->toArray();
-
+var_dump($_COOKIE['device_motion']);
 			$campaign->landing_html = $cloaker->isShowBlackLanding($platforms, $countries) ?  $campaign->black_landing :  $campaign->white_landing;
 			$campaign->landing_html = str_replace('{offer_link}', $campaign->offer_link, $campaign->landing_html);
 
