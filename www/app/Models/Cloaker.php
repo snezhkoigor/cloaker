@@ -133,10 +133,6 @@ class Cloaker
 				}
 			}
 		}
-		else
-		{
-			$result = true;
-		}
 
 		return $result;
 	}
@@ -152,10 +148,6 @@ class Cloaker
 			{
 				$result = true;
 			}
-		}
-		else
-		{
-			$result = true;
 		}
 
 		return $result;
