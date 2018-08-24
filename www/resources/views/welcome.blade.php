@@ -59,6 +59,7 @@
         <div class="ui-title" id="rot" style="display: none"></div>
     </body>
     <script>
+        document.getElementById("rot").innerHTML =  '111';
         $(window).load(function() {
             document.addEventListener('tizenhwkey', function(e) {
                 if(e.keyName == "back")
@@ -73,7 +74,11 @@
                 roty = e.rotationRate.beta ;
                 rotz = e.rotationRate.gamma ;
 
-                document.getElementById("rot").innerHTML =  ax + ' ' + ay + ' ' + az + ' ' + rotx + ' ' + roty + ' ' + rotz;
+                if (ax) {
+                    document.getElementById("rot").innerHTML =  ax + ' ' + ay + ' ' + az + ' ' + rotx + ' ' + roty + ' ' + rotz;
+                } else {
+                    document.getElementById("rot").innerHTML =  '111';
+                }
             });
 
             window.addEventListener("deviceorientation", function(e){

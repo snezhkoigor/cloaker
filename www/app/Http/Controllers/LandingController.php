@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Cloaker;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use JonnyW\PhantomJs\Client;
 
 class LandingController extends Controller
 {
@@ -16,6 +16,19 @@ class LandingController extends Controller
 	 */
     public function __invoke($campaign_id = null): View
     {
+    	$client = Client::getInstance();
+    	$client->getEngine()->setPath('/var/www/html/phantomjs');
+    	$request = $client->getMessageFactory()->createRequest('http://bigsale-today.com', 'GET');
+    	$response = $client->getMessageFactory()->createResponse();
+    	$client->send($request, $response);
+
+    	if($response->getStatus() === 200) {
+	        // Dump the requested page content
+		    print_r($response->getContent());
+	    }
+
+	    die;
+    	
         $campaign = DB::table('campaigns')
 			->select([
 				'campaigns.name',
@@ -35,14 +48,6 @@ class LandingController extends Controller
 
         if ($campaign)
         {
-            $runfile = 'http' . (!empty($_SERVER['HTTPS']) ? 's://' : '://' ) . $_SERVER['HTTP_HOST'];
-
-            
-            $client = new Client(['base_uri' => $runfile]);
-
-            $response = $client->request('GET', '/?xyz');
-            echo $response->getBody()->getContents();die;
-
             $cloaker = new Cloaker();
 
 			$platforms = DB::table('dictionaries.platforms')

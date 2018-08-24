@@ -10,7 +10,8 @@
         "vlucas/phpdotenv": "~2.2",
         "code-orange/lumen-geoip": "3.0.*",
         "mobiledetect/mobiledetectlib": "^2.8",
-        "guzzlehttp/guzzle": "6.3.*"
+        "guzzlehttp/guzzle": "6.3.*",
+        "jonnyw/php-phantomjs": "4.6.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -31,11 +32,18 @@
     "scripts": {
         "post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\""
+        ],
+        "post-install-cmd": [
+            "PhantomInstaller\\Installer::installPhantomJS"
+        ],
+        "post-update-cmd": [
+            "PhantomInstaller\\Installer::installPhantomJS"
         ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "bin-dir": "/var/www/html"
     }
 }

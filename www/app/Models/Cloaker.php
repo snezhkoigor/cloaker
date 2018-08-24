@@ -117,7 +117,18 @@ class Cloaker
 			{
 				if (preg_match($platform->rule, $this->user_agent))
 				{
-					$result = true;
+					if ($platform->check_device_motion)
+					{
+						if (isset($_COOKIE['device_motion']) && !empty($_COOKIE['device_motion']))
+						{
+							$result = true;
+						}
+					}
+					else
+					{
+						$result = true;
+					}
+
 					break;
 				}
 			}

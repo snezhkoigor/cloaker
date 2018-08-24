@@ -24,8 +24,11 @@ RUN apt-get update && apt-get install -y \
        git \
        curl \
        autoconf \
+       libbz2-dev \
+       libfontconfig1 \
     && docker-php-ext-configure zip --with-libzip \
     && docker-php-ext-install zip \
+    && docker-php-ext-install bz2 \
     && docker-php-ext-install -j$(nproc) iconv \
     && docker-php-ext-install pcntl
 
