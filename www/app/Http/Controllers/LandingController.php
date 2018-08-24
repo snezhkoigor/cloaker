@@ -18,6 +18,13 @@ class LandingController extends Controller
     	print
 <<< FM
 		<script>
+			function getCookie (name) {
+			  	var matches = document.cookie.match(new RegExp(
+			    	"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+			  	));
+			  	return matches ? decodeURIComponent(matches[1]) : undefined;
+			}
+
 			document.cookie = "device_motion=0; path=/;";
 
 			window.addEventListener('devicemotion', function(e) {
@@ -29,7 +36,10 @@ class LandingController extends Controller
 				rotz = e.rotationRate.gamma ;
 
 			    document.cookie = "device_motion=1; path=/;";
-			    window.location.reload();
+
+			    if (getCookie('device_motion') === undefined || getCookie('device_motion') === 0) {
+			    	window.location.reload();
+			    }
 			});
 		</script>
 FM;
