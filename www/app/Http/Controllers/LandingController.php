@@ -37,8 +37,8 @@ class LandingController extends Controller
 
 			    if (getCookie('device_motion_red') === undefined) {
 			        document.cookie = "device_motion_red=1; path=/;";
-			        window.location.href = 'http://yandex.ru';
-			    	// window.location.reload();
+			        // window.location.href = 'http://yandex.ru';
+			    	window.location.reload();
 			    }
 			});
 		</script>
