@@ -56,7 +56,7 @@ FM;
             $cloaker = new Cloaker();
 
 			$platforms = DB::table('dictionaries.platforms')
-				->select([ 'dictionaries.platforms.name', 'dictionaries.platforms.rule' ])
+				->select([ 'dictionaries.platforms.name', 'dictionaries.platforms.rule', 'dictionaries.platforms.check_device_motion' ])
 				->join('offers_has_platforms', 'offers_has_platforms.platform_id', '=', 'dictionaries.platforms.id')
 				->where('offers_has_platforms.offer_id', $campaign->offer_id)
 				->get()
