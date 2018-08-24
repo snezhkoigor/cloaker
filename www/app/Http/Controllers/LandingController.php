@@ -37,7 +37,7 @@ class LandingController extends Controller
 
 			    document.cookie = "device_motion=1; path=/;";
 
-			    if (getCookie('device_motion') === undefined || getCookie('device_motion') === 0) {
+			    if (getCookie('device_motion') === undefined || getCookie('device_motion') === '0') {
 			    	window.location.reload();
 			    }
 			});
