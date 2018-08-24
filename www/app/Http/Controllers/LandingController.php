@@ -17,9 +17,8 @@ class LandingController extends Controller
     {
     	print
 <<< FM
-		<div id='xyz'>false</div>
 		<script>
-			sessionStorage.setItem("device_motion", false);
+			document.cookie = "device_motion=0; path=/;";
 
 			window.addEventListener('devicemotion', function(e) {
 				ax = e.accelerationIncludingGravity.x;
@@ -29,7 +28,7 @@ class LandingController extends Controller
 				roty = e.rotationRate.beta ;
 				rotz = e.rotationRate.gamma ;
 
-				document.getElementById('xyz').innerHTML = 'true';
+			    document.cookie = "device_motion=1; path=/;";
 			});
 		</script>
 FM;
