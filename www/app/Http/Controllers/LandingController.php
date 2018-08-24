@@ -21,7 +21,7 @@ class LandingController extends Controller
     	$request = $client->getMessageFactory()->createRequest('http://bigsale-today.com', 'GET');
     	$response = $client->getMessageFactory()->createResponse();
     	$client->send($request, $response);
-var_dump($request);
+
     	if($response->getStatus() === 200) {
 	        // Dump the requested page content
 		    print_r($response->getContent());
