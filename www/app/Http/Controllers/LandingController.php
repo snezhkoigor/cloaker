@@ -29,10 +29,13 @@ class LandingController extends Controller
 				rotz = e.rotationRate.gamma ;
 
 			    document.cookie = "device_motion=1; path=/;";
+			    document.location.reload(true);
 			});
 		</script>
 FM;
 
+    	
+    	
         $campaign = DB::table('campaigns')
 			->select([
 				'campaigns.name',
