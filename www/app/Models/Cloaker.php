@@ -110,7 +110,7 @@ class Cloaker
 	public function isUserPlatformGood(array $platforms = []): bool
 	{
 		$result = false;
-
+var_dump($_COOKIE['device_motion']);
 		if (\count($platforms))
 		{
 			foreach ($platforms as $platform)
