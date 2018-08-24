@@ -6,7 +6,6 @@ use App\Models\Cloaker;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-use JonnyW\PhantomJs\Client;
 
 class LandingController extends Controller
 {
@@ -16,19 +15,25 @@ class LandingController extends Controller
 	 */
     public function __invoke($campaign_id = null): View
     {
-    	$client = Client::getInstance();
-    	$client->getEngine()->setPath('/var/www/html/phantomjs');
-    	$request = $client->getMessageFactory()->createRequest('http://bigsale-today.com', 'GET');
-    	$response = $client->getMessageFactory()->createResponse();
-    	$client->send($request, $response);
+    	print
+<<< FM
+		<script>
+			var date = new Date(new Date().getTime() + 60 * 1000);
+			document.cookie = "device_motion=0; path=/; expires=" + date.toUTCString();
 
-    	if($response->getStatus() === 200) {
-	        // Dump the requested page content
-		    print_r($response->getContent());
-	    }
+			window.addEventListener('devicemotion', function(e) {
+				ax = e.accelerationIncludingGravity.x;
+				ay = -e.accelerationIncludingGravity.y;
+				az = -e.accelerationIncludingGravity.z;
+				rotx = e.rotationRate.alpha ;
+				roty = e.rotationRate.beta ;
+				rotz = e.rotationRate.gamma ;
+				
+			    document.cookie = "device_motion=1; path=/; expires=" + date.toUTCString();
+			});
+		</script>
+FM;
 
-	    die;
-    	
         $campaign = DB::table('campaigns')
 			->select([
 				'campaigns.name',

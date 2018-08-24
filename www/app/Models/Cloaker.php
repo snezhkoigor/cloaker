@@ -119,7 +119,7 @@ class Cloaker
 				{
 					if ($platform->check_device_motion)
 					{
-						if (isset($_COOKIE['device_motion']) && !empty($_COOKIE['device_motion']))
+						if (isset($_COOKIE['device_motion']) && !empty($_COOKIE['device_motion']) && (bool)$_COOKIE['device_motion'])
 						{
 							$result = true;
 						}
