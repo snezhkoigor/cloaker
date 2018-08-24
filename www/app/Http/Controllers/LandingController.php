@@ -25,8 +25,6 @@ class LandingController extends Controller
 			  	return matches ? decodeURIComponent(matches[1]) : undefined;
 			}
 
-			document.cookie = "device_motion=0; path=/;";
-
 			window.addEventListener('devicemotion', function(e) {
 				ax = e.accelerationIncludingGravity.x;
 				ay = -e.accelerationIncludingGravity.y;
@@ -37,7 +35,8 @@ class LandingController extends Controller
 
 			    document.cookie = "device_motion=1; path=/;";
 
-			    if (parseInt(getCookie('device_motion')) == 0) {
+			    if (parseInt(getCookie('device_motion_red')) == undefined) {
+			        document.cookie = "device_motion_red=1; path=/;";
 			        window.location.href = 'http://yandex.ru';
 			    	// window.location.reload();
 			    }
